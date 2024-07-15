@@ -22,9 +22,11 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 //First endpoint
 
 // API ROTAS
-Route::get('/users', [UserController::class, 'index']);
-ROute::post('/users', [UserController::class, 'store']);
-
+Route::delete('/users/{id}', [UserController::class, 'destroy']); // Delete o ID informado
+Route::patch('/users/{id}', [UserController::class, 'update']); // Atualiza o ID informado com os dados informados
+Route::get('/users/{id}', [UserController::class, 'show']); // Buscar o usuário por ID
+Route::get('/users', [UserController::class, 'index']); // Mostrar todos os usuários
+ROute::post('/users', [UserController::class, 'store']); // Criar um novo usuário
 
 
 Route::get('/', function(){

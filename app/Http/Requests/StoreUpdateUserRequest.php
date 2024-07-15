@@ -23,13 +23,42 @@ class StoreUpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required|min:3|max:255',
             'email' => [
                 'required',
-                'email','max:255',
-                'unique:users'
-            ]
+                'email',
+                'max:255',
+                'unique:users',
+            ],
+            'password' => [
+                'required',
+                'min:6',
+                'max:100',
+            ],
         ];
+
+        // Se o método recebido for patch para atualizar os dados
+        if ($this->method() === 'PATCH') {
+
+            $rules[
+                'email'] =
+                [
+                'required',
+                'email',
+                'max:255',
+                // "unique:users, email, {$this->id},id",
+
+                Rule::unique('users')->ignore($this->id),
+            ];
+
+            $rules['password'] = [
+                'nullable',
+                'min:6',
+                'max:100',
+            ];
+        }
+
+        return $rules;
     }
 }
